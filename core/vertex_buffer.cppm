@@ -50,7 +50,7 @@ enum class data_type : uint16_t {
     bool1
 };
 
-struct vertex_attribute_element {
+export struct vertex_attribute_element {
     std::string name="Undefined";
     GLenum type;
     uint32_t size=0; // size of the components, essentially sizeof(glm::vec3)
@@ -71,7 +71,7 @@ std::array<vertex_attribute_element, 1> attributes = {
 };
 
 */
-class vertex_attribute {
+export class vertex_attribute {
 public:
     vertex_attribute() = default;
     vertex_attribute(const std::span<vertex_attribute_element>& p_list){
@@ -97,8 +97,9 @@ private:
 };
 
 
-class vertex_buffer {
+export class vertex_buffer {
 public:
+    vertex_buffer() = default;
     vertex_buffer(std::span<const vertex> p_vertices) {
         glGenBuffers(1, &m_id);
         write(p_vertices);

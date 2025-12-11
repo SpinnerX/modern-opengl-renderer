@@ -7,8 +7,9 @@ module;
 export module core.index_buffer;
 
 
-class index_buffer {
+export class index_buffer {
 public:
+    index_buffer() = default;
     
     index_buffer(std::span<const uint32_t> p_indices) {
         glGenBuffers(1, &m_id);
