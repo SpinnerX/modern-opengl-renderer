@@ -11,6 +11,8 @@ import core.types;
 import core.framebuffer;
 import core.shader;
 import core.vertex_array;
+import core.event;
+import core.keys;
 using namespace std;
 
 int main(){
@@ -72,7 +74,7 @@ int main(){
     });
 
 
-    auto query_camera_objects = registry.query_builder<flecs::pair<core::tags::editor, core::projection_view>, core::perspective_camera>().build();
+    auto query_camera_objects = registry.query_builder<flecs::pair<core::tags::editor, core::projection_view>, core::perspective_camera, core::transform>().build();
 
     glm::vec4 color = {0.f, 0.5f, 0.5f, 1.f};
    
@@ -96,13 +98,25 @@ int main(){
     };
 
     vao.vertex_attributes(elements_attributes);
-
+    glm::mat4 proj_view(1.f);
     while(!glfwWindowShouldClose(window)){
         auto current_time = std::chrono::high_resolution_clock::now();
         delta_time = std::chrono::duration<float, std::chrono::seconds::period>(current_time - start_time).count();
         start_time = current_time;
 
         registry.progress(delta_time);
+
+        query_camera_objects.each(
+              [&](flecs::entity,
+                flecs::pair<core::tags::editor, core::projection_view> p_pair,
+                core::perspective_camera& p_camera, core::transform& p_transform) {
+            if (!p_camera.is_active) {
+                return;
+            }
+
+            proj_view = p_pair->projection * p_pair->view;
+        });
+
 
         glClearColor(color.x, color.y, color.z, color.w);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

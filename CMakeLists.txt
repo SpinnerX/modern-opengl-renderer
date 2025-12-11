@@ -42,6 +42,8 @@ target_sources(${PROJECT_NAME} PUBLIC
     core/components.cppm
     core/types.cppm
     core/framebuffer.cppm
+    core/event.cppm
+    core/keys.cppm
 )
 
 # target_compile_options(${PROJECT_NAME} PUBLIC -ftime-report)
