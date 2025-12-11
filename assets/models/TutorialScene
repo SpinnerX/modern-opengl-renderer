@@ -1,0 +1,58 @@
+Scene: Untitled
+Entities:
+  - Entity: 16703519259146999255
+    Tag Component:
+      Tag: Platform
+    TransformComponent:
+      Translation: [0, -1.79999995, 0]
+      Rotation: [0, 0, -0.155334294]
+      Scale: [8.39999962, 1.10000002, 1]
+    SpriteRendererComponent:
+      Color: [1, 1, 1, 1]
+    RigidBody2DComponent:
+      BodyType: Static
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.330000013
+      Resitution: 0
+      ResitutionThreshold: 0.5
+  - Entity: 2570996888973092471
+    Tag Component:
+      Tag: Some Game Object
+    TransformComponent:
+      Translation: [-0.270000011, 1.22000003, 0]
+      Rotation: [0, 0, 0.626573205]
+      Scale: [1.70000005, 1.29999995, 1]
+    SpriteRendererComponent:
+      Color: [0.779411793, 0.229238749, 0.229238749, 1]
+    RigidBody2DComponent:
+      BodyType: Dynamic
+      FixedRotation: false
+    BoxCollider2DComponent:
+      Offset: [0, 0]
+      Size: [0.5, 0.5]
+      Density: 1
+      Friction: 0.5
+      Resitution: 0
+      ResitutionThreshold: 0.5
+  - Entity: 17914243943869650435
+    Tag Component:
+      Tag: Camera
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      Camera:
+        ProjectionType: 1
+        PerspectiveFOV: 0.785398185
+        PerspectiveNear: 0.00999999978
+        PerspectiveFar: 1000
+        OrthographicSize: 10
+        OrthographicNear: -1
+        OrthographicFar: 1
+      Primary: true
+      FixedAspectRatio: false

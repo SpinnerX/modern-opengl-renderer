@@ -25,6 +25,24 @@ export module core.vertex_buffer;
 /*     } */
 /* }; */
 
+// export struct vertex {
+//     static constexpr uint32_t max_bone_influence=4;
+//     // position
+//     glm::vec3 Position;
+//     // normal
+//     glm::vec3 Normal;
+//     // texCoords
+//     glm::vec2 TexCoords;
+//     // tangent
+//     glm::vec3 Tangent;
+//     // bitangent
+//     glm::vec3 Bitangent;
+// 	//bone indexes which will influence this vertex
+// 	int m_BoneIDs[MAX_BONE_INFLUENCE];
+// 	//weights from each bone
+// 	float m_Weights[MAX_BONE_INFLUENCE];
+// };
+
 
 export struct vertex {
     static constexpr uint32_t max_bone_influence=4;
@@ -32,8 +50,10 @@ export struct vertex {
     glm::vec3 color;
     glm::vec3 normal;
     glm::vec2 uv;
-    // glm::vec3 tangent;
-    // glm::vec3 bit_tangent;
+    glm::vec3 tangent;
+    glm::vec3 bit_tangent;
+    std::array<int, max_bone_influence> bone_ids;
+    std::array<int, max_bone_influence> weights;
 
     bool operator==(const vertex& other) const {
         return position == other.position and color == other.color and
