@@ -26,7 +26,7 @@ export module core.vertex_buffer;
 /* }; */
 
 
-struct vertex {
+export struct vertex {
     static constexpr uint32_t max_bone_influence=4;
     glm::vec3 position;
     glm::vec3 color;

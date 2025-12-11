@@ -16,8 +16,9 @@ enum class texture_type{
     gamma_correction
 };
 
-class texture {
+export class texture {
 public:
+    texture() = default;
     texture(const std::string& p_filename, bool enable_gamma_correction){
         glGenTextures(1, &m_id);
         bind();

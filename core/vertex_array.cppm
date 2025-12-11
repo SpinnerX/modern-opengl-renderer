@@ -8,14 +8,14 @@ module;
 import core.vertex_buffer;
 import core.index_buffer;
 
-export module vertex_array;
+export module core.vertex_array;
 
 
 
 export class vertex_array {
 public:
     vertex_array() = default;
-    
+
     vertex_array(const std::span<float>& p_vertices, const std::span<uint32_t>& p_indices) {
         glGenVertexArrays(1, &m_id);
         glBindVertexArray(m_id);

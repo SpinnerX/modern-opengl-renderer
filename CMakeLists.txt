@@ -13,6 +13,7 @@ build_application(
     assimp
     glad
     stb
+    flecs
 
     LINK_PACKAGES
     glfw
@@ -20,6 +21,7 @@ build_application(
     assimp::assimp
     glad::glad
     stb::stb
+    flecs::flecs_static
 )
 
 generate_compile_commands()
@@ -35,6 +37,8 @@ target_sources(${PROJECT_NAME} PUBLIC
     core/vertex_array.cppm
     core/texture.cppm
     core/stb_image.cppm
+    core/model_loading.cppm
+    core/shader.cppm
 )
 
 # target_compile_options(${PROJECT_NAME} PUBLIC -ftime-report)
