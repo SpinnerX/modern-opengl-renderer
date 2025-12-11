@@ -33,14 +33,14 @@ static std::string shader_type_to_string(shader_t p_shader_type){
 
 export class shader {
 public:
-    shader() = default;
+    // shader() = default;
     shader(const std::string& p_vertex, const std::string& p_fragment) : m_is_loaded(true), m_path(p_vertex){
         //! @note We initialize our shader program to then take in our shader modules and used for linking them
         m_shader_program_id = glCreateProgram();
 
         // Load, Build, Compile our vertex and fragment shader modules
         int success;
-        bool is_vert_loaded = load_module(p_vertex, shader_t::vertex);
+        bool is_vert_loaded = load_module(p_vertex, GL_VERTEX_SHADER);
 
         if(!is_vert_loaded){
             std::print("Vertex Shader DID NOT LOAD CORRECTLY!\n");
@@ -48,7 +48,7 @@ public:
             return;
         }
 
-        bool is_frag_loaded = load_module(p_fragment, shader_t::fragment);
+        bool is_frag_loaded = load_module(p_fragment, GL_FRAGMENT_SHADER);
         
         if(!is_frag_loaded){
             std::print("FRAG SHADER did not load correctly!\n");
@@ -74,7 +74,7 @@ public:
         glUseProgram(0);
     }
 
-    bool load_module(const std::string& p_filepath, shader_t p_shader_type){
+    bool load_module(const std::string& p_filepath, GLenum p_shader_type){
         std::ifstream ins(p_filepath);
         int success;
         std::array<char, 512> info_log;
@@ -90,14 +90,17 @@ public:
         std::string src = ss.str();
         const char* shader_src = src.c_str();
 
-        m_vertex_shader_id = glCreateShader(static_cast<int>(p_shader_type));
+        m_vertex_shader_id = glCreateShader(p_shader_type);
         glShaderSource(m_vertex_shader_id, 1, &shader_src, nullptr);
         glCompileShader(m_vertex_shader_id);
         glGetShaderiv(m_vertex_shader_id, GL_COMPILE_STATUS, &success);
 
         if(!success){
             glGetShaderInfoLog(m_vertex_shader_id, info_log.size(), nullptr, info_log.data());
-            std::print("{} SHADER ERROR\n", shader_type_to_string(p_shader_type));
+            // std::string error = "Undefined";
+            std::println("SHADER ERROR ID = {}", p_shader_type);
+            // error = shader_type_to_string(p_shader_type);
+            // std::print("{} SHADER ERROR\n", error);
             std::print("{}\n", info_log.data());
             return false;
         }

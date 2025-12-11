@@ -40,6 +40,8 @@ target_sources(${PROJECT_NAME} PUBLIC
     core/model_loading.cppm
     core/shader.cppm
     core/components.cppm
+    core/types.cppm
+    core/framebuffer.cppm
 )
 
 # target_compile_options(${PROJECT_NAME} PUBLIC -ftime-report)

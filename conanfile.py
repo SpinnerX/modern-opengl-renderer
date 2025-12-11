@@ -1,9 +1,6 @@
 import os
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMake, cmake_layout, CMakeDeps
-from conan.tools.system.package_manager import Apt, Yum, PacMan, Zypper
-from conan.tools.scm import Git
-from conan.tools.files import copy
 import os
 
 class StarterConanRecipe(ConanFile):
@@ -26,7 +23,6 @@ class StarterConanRecipe(ConanFile):
         self.requires("glm/1.0.1")
         self.requires("box2d/2.4.1")
         self.requires("opengl/system")
-        self.requires("imguidocking/2.0")
         self.requires("assimp/5.4.3")
         self.requires("glad/0.1.36")
         self.requires("flecs/4.0.4")
