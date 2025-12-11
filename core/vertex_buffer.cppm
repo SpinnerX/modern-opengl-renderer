@@ -74,14 +74,14 @@ std::array<vertex_attribute_element, 1> attributes = {
 export class vertex_attribute {
 public:
     vertex_attribute() = default;
-    vertex_attribute(const std::span<vertex_attribute_element>& p_list){
+    vertex_attribute(std::span<vertex_attribute_element> p_list){
         calculate_stride_offset(p_list);
     }
 
     [[nodiscard]] uint32_t stride() const { return m_stride; }
 
 private:
-    void calculate_stride_offset(const std::span<vertex_attribute_element>& p_attributes) {
+    void calculate_stride_offset(std::span<vertex_attribute_element> p_attributes) {
         uint32_t offset = 0;
         m_stride = 0;
 
@@ -105,7 +105,7 @@ public:
         write(p_vertices);
     }
 
-    vertex_buffer(std::span<float> p_vertices) {
+    vertex_buffer(std::span<const float> p_vertices) {
         glGenBuffers(1, &m_id);
         write(p_vertices);
     }
@@ -122,7 +122,7 @@ public:
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
-    void write(std::span<float> p_vertices) {
+    void write(std::span<const float> p_vertices) {
         bind();
         glBufferData(GL_ARRAY_BUFFER, static_cast<uint32_t>(p_vertices.size_bytes()), p_vertices.data(), GL_STATIC_DRAW);
     }

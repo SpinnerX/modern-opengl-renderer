@@ -3,12 +3,14 @@
 #include <GLFW/glfw3.h>
 #include <flecs.h>
 #include <glm/glm.hpp>
+#include <vector>
 
 import core.vertex_buffer;
 import core.components;
 import core.types;
 import core.framebuffer;
 import core.shader;
+import core.vertex_array;
 using namespace std;
 
 int main(){
@@ -78,7 +80,22 @@ int main(){
     // loading shaders here
     shader experimental_shader("builtin.shaders/geometry.vert", "builtin.shaders/geometry.frag");
 
+    std::vector<float> vertices = {
+        // positions         // colors
+        0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,   // bottom right
+        -0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,   // bottom left
+        0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f    // top 
+    };
+    std::vector<uint32_t> indices = {};
+    vertex_array vao(vertices, indices);
 
+    vao.bind();
+    std::vector<vertex_attribute_element> elements_attributes = {
+        { .name = "aPos", .type = GL_FLOAT, .size = 3},
+        { .name = "aColor", .type = GL_FLOAT, .size = 3 },
+    };
+
+    vao.vertex_attributes(elements_attributes);
 
     while(!glfwWindowShouldClose(window)){
         auto current_time = std::chrono::high_resolution_clock::now();
@@ -89,6 +106,13 @@ int main(){
 
         glClearColor(color.x, color.y, color.z, color.w);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        experimental_shader.bind();
+        experimental_shader.set("someUniform", 1.f);
+
+        vao.bind();
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+
         
         glfwSwapBuffers(window);
         glfwPollEvents();

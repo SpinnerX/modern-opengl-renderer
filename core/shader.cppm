@@ -117,11 +117,11 @@ public:
         glUseProgram(0);
     }
 
-    void bind(uint32_t p_index=0){
+    void bind(uint32_t p_index){
         glUseProgram(p_index);
     }
 
-    void unbind(uint32_t p_index=0){
+    void unbind(uint32_t p_index){
         glUseProgram(p_index);
     }
 

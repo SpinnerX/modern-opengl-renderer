@@ -16,14 +16,14 @@ export class vertex_array {
 public:
     vertex_array() = default;
 
-    vertex_array(const std::span<float>& p_vertices, const std::span<uint32_t>& p_indices) {
+    vertex_array(std::span<const float> p_vertices, std::span<const uint32_t> p_indices) {
         glGenVertexArrays(1, &m_id);
         glBindVertexArray(m_id);
         m_vbo = vertex_buffer(p_vertices);
         m_ibo = index_buffer(p_indices);
     }
 
-    vertex_array(const std::span<vertex>& p_vertices, const std::span<uint32_t>& p_indices) {
+    vertex_array(std::span<const vertex> p_vertices, std::span<const uint32_t> p_indices) {
         glGenVertexArrays(1, &m_id);
         glBindVertexArray(m_id);
         m_vbo = vertex_buffer(p_vertices);
@@ -44,7 +44,7 @@ public:
         glBindVertexArray(0);
     }
 
-    void vertex_attributes(const std::span<vertex_attribute_element>& p_attribute_elements) {
+    void vertex_attributes(std::span<vertex_attribute_element> p_attribute_elements) {
         m_attributes = vertex_attribute(p_attribute_elements);
         uint32_t index = 0;
         bind();
