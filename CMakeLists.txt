@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.27)
 project(Starter CXX)
 
+set(CMAKE_CXX_STANDARD 23)
 
 build_application(
     SOURCES
@@ -9,8 +10,33 @@ build_application(
     PACKAGES
     glfw3
     fmt
+    assimp
+    glad
+    stb
 
     LINK_PACKAGES
     glfw
     fmt::fmt
+    assimp::assimp
+    glad::glad
+    stb::stb
 )
+
+generate_compile_commands()
+
+target_sources(${PROJECT_NAME} PUBLIC
+    FILE_SET CXX_MODULES
+    TYPE CXX_MODULES
+    FILES
+    renderer.cppm
+    core/model_loader.cppm
+    core/vertex_buffer.cppm
+    core/index_buffer.cppm
+    core/vertex_array.cppm
+    core/texture.cppm
+    core/stb_image.cppm
+)
+
+# target_compile_options(${PROJECT_NAME} PUBLIC -ftime-report)
+
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_23)
