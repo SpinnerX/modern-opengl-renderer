@@ -3,6 +3,8 @@ module;
 #include <cstdint>
 #include <glm/glm.hpp>
 #include <filesystem>
+
+import core.utilities;
 export module core.components;
 
 
@@ -42,8 +44,14 @@ export namespace core {
 
     struct transform {
         glm::vec3 position{0.f};
-        glm::vec3 scale{0.f};
+        glm::highp_vec4 quaternion{0.f, 0.f, 0.f, 1.f};
+        glm::vec3 scale{1.f};
         glm::vec3 rotation{0.f};
+        // Setting the rotation and automatically applies the quaternion after rotation's set
+        void set_rotation(const glm::highp_vec3& p_rotation) {
+            rotation = p_rotation;
+            quaternion = from_quat(rotation);
+        }
     };
 
     struct mesh_source {

@@ -23,6 +23,7 @@ class StarterConanRecipe(ConanFile):
         self.requires("glm/1.0.1")
         self.requires("box2d/2.4.1")
         self.requires("opengl/system")
+        self.requires("tinyobjloader/2.0.0-rc10")
         self.requires("assimp/5.4.3")
         self.requires("glad/0.1.36")
         self.requires("flecs/4.0.4")

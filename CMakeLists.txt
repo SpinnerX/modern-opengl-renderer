@@ -14,6 +14,7 @@ build_application(
     glad
     stb
     flecs
+    tinyobjloader
 
     LINK_PACKAGES
     glfw
@@ -22,6 +23,7 @@ build_application(
     glad::glad
     stb::stb
     flecs::flecs_static
+    tinyobjloader::tinyobjloader
 )
 
 generate_compile_commands()
@@ -31,20 +33,20 @@ target_sources(${PROJECT_NAME} PUBLIC
     TYPE CXX_MODULES
     FILES
     renderer.cppm
-    core/model_loader.cppm
+    core/model_importer.cppm
+    core/obj_model_loader.cppm
     core/vertex_buffer.cppm
     core/index_buffer.cppm
     core/vertex_array.cppm
     core/texture.cppm
     core/stb_image.cppm
-    core/model_loading.cppm
     core/shader.cppm
     core/components.cppm
     core/types.cppm
     core/framebuffer.cppm
     core/event.cppm
     core/keys.cppm
-    core/model_tutorial.cppm
+    core/utilities.cppm
 )
 
 # target_compile_options(${PROJECT_NAME} PUBLIC -ftime-report)

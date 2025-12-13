@@ -19,7 +19,7 @@ enum class texture_type{
 export class texture {
 public:
     texture() = default;
-    texture(const std::string& p_filename, bool enable_gamma_correction){
+    texture(const std::string& p_filename, bool enable_gamma_correction) : m_path(p_filename) {
         glGenTextures(1, &m_id);
         bind();
 
@@ -169,6 +169,11 @@ public:
         // glDisable(GL_TEXTURE_2D);
     }
 
+    [[nodiscard]] std::string_view path() const {
+        return m_path;
+    }
+
 private:
     uint32_t m_id;
+    std::string m_path="Undeifned";
 };

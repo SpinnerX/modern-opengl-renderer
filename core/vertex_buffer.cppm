@@ -44,21 +44,23 @@ export module core.vertex_buffer;
 // };
 
 
-export struct vertex {
-    static constexpr uint32_t max_bone_influence=4;
-    glm::vec3 position;
-    glm::vec3 color;
-    glm::vec3 normal;
-    glm::vec2 uv;
-    glm::vec3 tangent;
-    glm::vec3 bit_tangent;
-    std::array<int, max_bone_influence> bone_ids;
-    std::array<int, max_bone_influence> weights;
+export namespace core {
+    struct vertex {
+        // static constexpr uint32_t max_bone_influence=4;
+        glm::vec3 position;
+        glm::vec3 color;
+        glm::vec3 normal;
+        glm::vec2 uv;
+        // glm::vec3 tangent;
+        // glm::vec3 bit_tangent;
+        // std::array<int, max_bone_influence> bone_ids;
+        // std::array<int, max_bone_influence> weights;
 
-    bool operator==(const vertex& other) const {
-        return position == other.position and color == other.color and
-                uv == other.uv and normal == other.normal;
-    }
+        bool operator==(const vertex& other) const {
+            return position == other.position and color == other.color and
+                    uv == other.uv and normal == other.normal;
+        }
+    };
 };
 
 enum class data_type : uint16_t {
@@ -120,7 +122,7 @@ private:
 export class vertex_buffer {
 public:
     vertex_buffer() = default;
-    vertex_buffer(std::span<const vertex> p_vertices) {
+    vertex_buffer(std::span<const core::vertex> p_vertices) {
         glGenBuffers(1, &m_id);
         write(p_vertices);
     }
@@ -147,7 +149,7 @@ public:
         glBufferData(GL_ARRAY_BUFFER, static_cast<uint32_t>(p_vertices.size_bytes()), p_vertices.data(), GL_STATIC_DRAW);
     }
 
-    void write(std::span<const vertex> p_vertices) {
+    void write(std::span<const core::vertex> p_vertices) {
         bind();
         glBufferData(GL_ARRAY_BUFFER, static_cast<uint32_t>(p_vertices.size_bytes()), p_vertices.data(), GL_STATIC_DRAW);
     }

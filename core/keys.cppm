@@ -141,6 +141,7 @@ enum Key : uint32_t {
 
 // From glfw3.h
 
+export {
 inline constexpr uint32_t key_space = Key::Space;
 inline constexpr uint32_t key_apostrophe =
   Key::Apostrophe;                                  /* ' */
@@ -274,3 +275,4 @@ inline constexpr uint32_t key_right_control = Key::RightControl;
 inline constexpr uint32_t key_right_alt = Key::RightAlt;
 inline constexpr uint32_t key_right_super = Key::Rightsuper;
 inline constexpr uint32_t key_menu = Key::Menu;
+};

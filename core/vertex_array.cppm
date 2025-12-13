@@ -23,7 +23,7 @@ public:
         m_ibo = index_buffer(p_indices);
     }
 
-    vertex_array(std::span<const vertex> p_vertices, std::span<const uint32_t> p_indices) {
+    vertex_array(std::span<const core::vertex> p_vertices, std::span<const uint32_t> p_indices) {
         glGenVertexArrays(1, &m_id);
         glBindVertexArray(m_id);
         m_vbo = vertex_buffer(p_vertices);
