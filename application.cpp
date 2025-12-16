@@ -64,12 +64,6 @@ int main(){
         return -1;
     }
 
-    // core::window_extent fb_extent = {
-    //     .width = width,
-    //     .height = height,
-    // };
-    // core::framebuffer main_framebuffer(fb_extent);
-
     // setting up scene objects
     auto start_time = std::chrono::high_resolution_clock::now();
     float delta_time = 0.f;
@@ -121,27 +115,13 @@ int main(){
 
     glm::vec4 color = {0.f, 0.5f, 0.5f, 1.f};
    
-    
-    // loading shaders here
-    /* shader experimental_shader("builtin.shaders/geometry.vert", "builtin.shaders/geometry.frag"); */
-    /* shader_library lib; */
-    /* lib.emplace(shader_type::geometry, "builtin.shaders/geometry.vert", "builtin.shaders/geometry.frag"); */
-    /* std::optional<shader> shader_optional = lib.get(shader_type::geometry); */
-    /* auto experimental_shader = shader_optional.value(); */
     glm::mat4 proj_view(1.f);
-
-
-    // model_importer import_mesh(std::filesystem::path("backpack/backpack.obj"));
-    // std::println("Finished loading path = {}", import_mesh.path());
-
-    /* core::obj_model_loader obj_model(std::filesystem::path("assets/models/robot.obj")); */
 
     // query all camera objects
     auto query_camera_objects = registry.query_builder<flecs::pair<core::tags::editor, core::projection_view>, core::perspective_camera, core::transform>().build();
 
 
     // setting up the renderer
-
     renderer core_renderer(registry);
 
     glEnable(GL_DEPTH_TEST);
