@@ -9,6 +9,8 @@ module;
 #include <print>
 #include <glad/glad.h>
 #include <map>
+#include <span>
+#include <vector>
 
 import core.vertex_array;
 import core.vertex_buffer;
@@ -72,8 +74,6 @@ export namespace core {
                 return;
             }
 
-            std::vector<core::vertex> vertices;
-            std::vector<uint32_t> indices;
             std::unordered_map<core::vertex, uint32_t> unique_vertices{};
 
             // for (const auto& shape : shapes) {
@@ -85,8 +85,8 @@ export namespace core {
                     core::vertex single_vertex{};
 
                     if (!unique_vertices.contains(single_vertex)) {
-                        unique_vertices[single_vertex] = static_cast<uint32_t>(vertices.size());
-                        vertices.push_back(single_vertex);
+                        unique_vertices[single_vertex] = static_cast<uint32_t>(m_vertices.size());
+                        m_vertices.push_back(single_vertex);
                     }
 
                     if (index.vertex_index >= 0) {
@@ -136,15 +136,15 @@ export namespace core {
                     }
 
                     if (!unique_vertices.contains(single_vertex)) {
-                        unique_vertices[single_vertex] = static_cast<uint32_t>(vertices.size());
-                        vertices.push_back(single_vertex);
+                        unique_vertices[single_vertex] = static_cast<uint32_t>(m_vertices.size());
+                        m_vertices.push_back(single_vertex);
                     }
 
-                    indices.push_back(unique_vertices[single_vertex]);
+                    m_indices.push_back(unique_vertices[single_vertex]);
                 }
             }
 
-            m_vao = vertex_array(vertices, indices);
+            m_vao = vertex_array(m_vertices, m_indices);
             std::array<vertex_attribute_element, 4> elements = {
                 vertex_attribute_element{ .name = "aPos", .type = GL_FLOAT, .size = 3, },
                 vertex_attribute_element{ .name = "aColor", .type = GL_FLOAT, .size = 3, },
@@ -153,7 +153,7 @@ export namespace core {
             };
 
             m_vao.vertex_attributes(elements);
-            m_indices_count = indices.size();
+            m_indices_count = m_indices.size();
         }
 
         void bind() {
@@ -164,7 +164,18 @@ export namespace core {
             return m_indices_count;
         }
 
+    [[nodiscard]] std::span<const vertex> vertices() const {
+        return m_vertices;
+    }
+
+    [[nodiscard]] std::span<const uint32_t> indices() const {
+        return m_indices;
+    }
+
+
     private:
+        std::vector<vertex> m_vertices;
+        std::vector<uint32_t> m_indices;
         vertex_array m_vao;
         uint64_t m_indices_count=0;
     };

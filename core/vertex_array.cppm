@@ -30,10 +30,10 @@ public:
         m_ibo = index_buffer(p_indices);
     }
 
-    vertex_array(const std::filesystem::path& p_path) {
-        glGenVertexArrays(1, &m_id);
-        glBindVertexArray(m_id);
-
+    void write(std::span<const core::vertex> p_vertices, std::span<const uint32_t> p_indices) {
+        bind();
+        m_vbo.write(p_vertices);
+        m_ibo.invalidate(p_indices);
     }
 
     void bind() {

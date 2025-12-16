@@ -22,6 +22,7 @@ import core.shader;
 import core.shader_library;
 import core.components;
 import core.obj_model_loader;
+import core.vertex_buffer;
 
 export class renderer {
 public:
@@ -75,6 +76,8 @@ public:
     }
 
 private:
+    std::vector<core::vertex> m_vertices;
+    std::vector<uint32_t> m_indices;
     flecs::world* m_current_scene;
     shader_library m_shader_storage;
     std::map<uint64_t, core::obj_model_loader> m_cached_meshes;

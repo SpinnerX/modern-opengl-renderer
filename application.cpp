@@ -113,6 +113,12 @@ int main(){
         .filepath = std::filesystem::path("assets/models/robot.obj"),
     });
 
+    flecs::entity pair = registry.entity("Pair");
+    pair.add<core::transform>();
+    pair.set<core::mesh_source>({
+        .filepath = std::filesystem::path("assets/models/E 45 Aircraft_obj.obj"),
+    });
+
     glm::vec4 color = {0.f, 0.5f, 0.5f, 1.f};
    
     glm::mat4 proj_view(1.f);
