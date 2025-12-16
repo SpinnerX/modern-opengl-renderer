@@ -48,6 +48,7 @@ target_sources(${PROJECT_NAME} PUBLIC
     core/keys.cppm
     core/utilities.cppm
     core/shader_library.cppm
+    texture_table.cppm
 )
 
 # target_compile_options(${PROJECT_NAME} PUBLIC -ftime-report)

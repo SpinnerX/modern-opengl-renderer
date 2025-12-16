@@ -23,11 +23,13 @@ import core.shader_library;
 import core.components;
 import core.obj_model_loader;
 import core.vertex_buffer;
+import core.texture;
 
 export class renderer {
 public:
     renderer(flecs::world& p_scene) : m_current_scene(&p_scene) {
         m_shader_storage.emplace(shader_type::geometry, "builtin.shaders/geometry.vert", "builtin.shaders/geometry.frag");
+        m_texture_test = texture("assets/models/wood.png", false);
     }
 
     void background_color(const glm::vec4& p_color) {
@@ -58,6 +60,11 @@ public:
         });
 
         geometry_shader->bind();
+
+        // activate the texture
+        geometry_shader->set("test_texture", 0);
+
+        m_texture_test.bind();
         sources.each([this, &geometry_shader](flecs::entity p_entity, core::transform& p_transform, core::mesh_source& p_source){
                 auto model_test = m_cached_meshes[p_entity.id()];
                 glm::mat4 model = glm::mat4(1.f);
@@ -79,6 +86,7 @@ private:
     std::vector<core::vertex> m_vertices;
     std::vector<uint32_t> m_indices;
     flecs::world* m_current_scene;
+    texture m_texture_test;
     shader_library m_shader_storage;
     std::map<uint64_t, core::obj_model_loader> m_cached_meshes;
 };
