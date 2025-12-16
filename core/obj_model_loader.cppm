@@ -3,12 +3,12 @@ module;
 #include <filesystem>
 
 #include <tiny_obj_loader.h>
-#include <unordered_map>
 #include <glm/glm.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/hash.hpp>
 #include <print>
 #include <glad/glad.h>
+#include <map>
 
 import core.vertex_array;
 import core.vertex_buffer;
@@ -44,6 +44,7 @@ export namespace core {
 
     class obj_model_loader {
     public:
+        obj_model_loader() = default;
         obj_model_loader(const std::filesystem::path& p_filepath, bool p_flip=false) {
             invalidate(p_filepath);
         }

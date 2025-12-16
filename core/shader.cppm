@@ -33,6 +33,8 @@ static std::string shader_type_to_string(shader_t p_shader_type){
 
 export class shader {
 public:
+    shader() = default;
+    
     // shader() = default;
     shader(const std::string& p_vertex, const std::string& p_fragment) : m_is_loaded(true), m_path(p_vertex){
         //! @note We initialize our shader program to then take in our shader modules and used for linking them

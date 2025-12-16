@@ -23,6 +23,8 @@ import core.obj_model_loader;
 import core.event;
 import core.keys;
 import core.utilities;
+import core.shader_library;
+import core.renderer;
 
 #include <vector>
 #include <filesystem>
@@ -113,22 +115,34 @@ int main(){
     flecs::entity backpack = registry.entity("Backpack");
     backpack.set<core::transform>({
     });
+    backpack.set<core::mesh_source>({
+        .filepath = std::filesystem::path("assets/models/robot.obj"),
+    });
 
     glm::vec4 color = {0.f, 0.5f, 0.5f, 1.f};
    
     
     // loading shaders here
-    shader experimental_shader("builtin.shaders/geometry.vert", "builtin.shaders/geometry.frag");
+    /* shader experimental_shader("builtin.shaders/geometry.vert", "builtin.shaders/geometry.frag"); */
+    /* shader_library lib; */
+    /* lib.emplace(shader_type::geometry, "builtin.shaders/geometry.vert", "builtin.shaders/geometry.frag"); */
+    /* std::optional<shader> shader_optional = lib.get(shader_type::geometry); */
+    /* auto experimental_shader = shader_optional.value(); */
     glm::mat4 proj_view(1.f);
 
 
     // model_importer import_mesh(std::filesystem::path("backpack/backpack.obj"));
     // std::println("Finished loading path = {}", import_mesh.path());
 
-    core::obj_model_loader obj_model(std::filesystem::path("assets/models/robot.obj"));
+    /* core::obj_model_loader obj_model(std::filesystem::path("assets/models/robot.obj")); */
 
     // query all camera objects
     auto query_camera_objects = registry.query_builder<flecs::pair<core::tags::editor, core::projection_view>, core::perspective_camera, core::transform>().build();
+
+
+    // setting up the renderer
+
+    renderer core_renderer(registry);
 
     glEnable(GL_DEPTH_TEST);
 
@@ -195,19 +209,23 @@ int main(){
         glClearColor(color.x, color.y, color.z, color.w);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        experimental_shader.bind();
-        experimental_shader.set("proj_view", proj_view);
-        experimental_shader.unbind();
+        /* experimental_shader.bind(); */
+        /* experimental_shader.set("proj_view", proj_view); */
+        /* experimental_shader.unbind(); */
 
-        experimental_shader.bind();
-        glm::mat4 model = glm::mat4(1.f);
-        const core::transform* t = backpack.get<core::transform>();
-        model = glm::translate(model, t->position);
-        model = glm::scale(model, t->scale);
-        experimental_shader.set("model", model);
+        core_renderer.begin(proj_view);
 
-        obj_model.bind();
-        glDrawElements(GL_TRIANGLES, static_cast<int>(obj_model.size()), GL_UNSIGNED_INT, nullptr);
+        /* experimental_shader.bind(); */
+        /* glm::mat4 model = glm::mat4(1.f); */
+        /* const core::transform* t = backpack.get<core::transform>(); */
+        /* model = glm::translate(model, t->position); */
+        /* model = glm::scale(model, t->scale); */
+        /* experimental_shader.set("model", model); */
+
+        /* obj_model.bind(); */
+        /* glDrawElements(GL_TRIANGLES, static_cast<int>(obj_model.size()), GL_UNSIGNED_INT, nullptr); */
+        
+        core_renderer.end();
 
         
         glfwSwapBuffers(window);
