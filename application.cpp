@@ -111,7 +111,7 @@ int main(){
     });
     backpack.set<core::mesh_source>({
         .filepath = std::filesystem::path("assets/models/robot.obj"),
-        /* .ambient = "assets/models/wood.png", */
+        .ambient = "assets/models/wood.png",
     });
 
     flecs::entity pair = registry.entity("Pair");
