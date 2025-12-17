@@ -4,6 +4,8 @@ module;
 #include <glad/glad.h>
 #include <stb_image.h>
 #include <print>
+#include <span>
+
 import core.stb_image;
 
 export module core.texture;
@@ -19,7 +21,14 @@ enum class texture_type{
 export class texture {
 public:
     texture() = default;
-    texture(const std::string& p_filename, bool enable_gamma_correction) : m_path(p_filename) {
+    
+    texture(uint32_t p_width, uint32_t p_height, std::span<const uint8_t> p_bytes) {
+        /* image.SetVerticalOnLoad(true); */
+        create(p_width, p_height, p_bytes);
+        
+    }
+
+    texture(const std::string& p_filename, bool enable_gamma_correction=false) : m_path(p_filename) {
         glGenTextures(1, &m_id);
         bind();
 
@@ -122,6 +131,9 @@ public:
             format_to_use = GL_RGBA;
         }
 
+        m_width = image_width;
+        m_height = image_height;
+
 
         //! @note TODO: Handle texture to indicate what kinds of textures we are loading
         //! @note GAMMA_CORRECTION means we are enabling gamma correction for the specific texture
@@ -152,6 +164,29 @@ public:
         stbi_image_free(data);
     }
 
+    void create(uint32_t p_width, uint32_t p_height, std::span<const uint8_t> p_bytes) {
+        stbi_set_flip_vertically_on_load(true);
+		m_width = p_width;
+        m_height = p_height;
+        // Uploading data to OpenGL texture
+		// internalData is our internalFormat
+        m_internal_format = GL_RGBA8;
+		m_format = GL_RGBA;
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		
+		// Since we segfault using glTextureParameteri, we'll use this for now
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+
+        uint32_t bpp = m_format == GL_RGBA ? 4 : 3;
+
+        /* assert((size == width * height * bpp)); */
+        glTexImage2D(GL_TEXTURE_2D, 0, m_internal_format, p_width, p_height, 0, m_format, GL_UNSIGNED_BYTE, p_bytes.data()); // same thing as doing: glTextureSubImage2D
+    }
+
     void bind(int p_texture_slot=0){
         if(p_texture_slot == 0){
             glActiveTexture(GL_TEXTURE0);
@@ -176,4 +211,8 @@ public:
 private:
     uint32_t m_id;
     std::string m_path="Undeifned";
+    GLenum m_internal_format;
+    GLenum m_format;
+    uint32_t m_width=0;
+    uint32_t m_height=0;
 };

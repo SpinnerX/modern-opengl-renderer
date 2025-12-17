@@ -3,6 +3,7 @@ module;
 
 #include <map>
 #include <filesystem>
+#include <span>
 
 import core.texture;
 
@@ -47,6 +48,19 @@ public:
     void add_slot(uint32_t p_slot, const std::filesystem::path& p_path) {
         m_slots.emplace(p_slot, texture_slots{texture(p_path.string(), false), p_slot});
     }
+
+    void add_slot(uint32_t p_slot, uint32_t p_width, uint32_t p_height, std::span<const uint8_t> p_bytes) {
+        m_slots.emplace(p_slot, texture_slots{texture(p_width, p_height, p_bytes), p_slot});
+    }
+    
+    void bind(uint32_t p_slot) {
+        m_slots[p_slot].image_texture.bind(0);
+    }
+
+    void unbind(uint32_t p_slot) {
+        m_slots[p_slot].image_texture.unbind();
+    }
+
 private:
     std::map<uint32_t, texture_slots> m_slots;
 };

@@ -111,12 +111,14 @@ int main(){
     });
     backpack.set<core::mesh_source>({
         .filepath = std::filesystem::path("assets/models/robot.obj"),
+        /* .ambient = "assets/models/wood.png", */
     });
 
     flecs::entity pair = registry.entity("Pair");
     pair.add<core::transform>();
     pair.set<core::mesh_source>({
         .filepath = std::filesystem::path("assets/models/E 45 Aircraft_obj.obj"),
+        .ambient = "assets/models/wall.jpg",
     });
 
     glm::vec4 color = {0.f, 0.5f, 0.5f, 1.f};

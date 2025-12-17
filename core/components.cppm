@@ -57,5 +57,11 @@ export namespace core {
     struct mesh_source {
         std::filesystem::path filepath;
         bool flip_texcoords=false;
+        std::string ambient="";
+        std::string diffuse="";
+        std::string specular="";
+        std::string normal_map=""; // normal-mapping texture
+        std::string roughness_map=""; // roughness mapping texture
+        std::string parallax_mapping=""; // for handling parallax mapping
     };
 };
