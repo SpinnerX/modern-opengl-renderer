@@ -47,10 +47,12 @@ public:
 
     void add_slot(uint32_t p_slot, const std::filesystem::path& p_path) {
         m_slots.emplace(p_slot, texture_slots{texture(p_path.string(), false), p_slot});
+        m_slots[p_slot].image_texture.unbind();
     }
 
     void add_slot(uint32_t p_slot, uint32_t p_width, uint32_t p_height, std::span<const uint8_t> p_bytes) {
         m_slots.emplace(p_slot, texture_slots{texture(p_width, p_height, p_bytes), p_slot});
+        m_slots[p_slot].image_texture.unbind();
     }
     
     void bind(uint32_t p_slot) {

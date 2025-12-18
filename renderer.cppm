@@ -74,22 +74,22 @@ public:
 
                 // add diffuse
                 
-                /* if(p_source.diffuse.empty()) { */
-                /*     std::array<uint8_t, 4> bytes = {0xFF, 0xFF, 0xFF, 0xFF}; */
-                /*     table.add_slot(1, 1, 1, bytes); */
-                /* } */
-                /* else { */
-                /*     table.add_slot(1, p_source.diffuse); */
-                /* } */
+                if(p_source.diffuse.empty()) {
+                    std::array<uint8_t, 4> bytes = {0xFF, 0xFF, 0xFF, 0xFF};
+                    table.add_slot(1, 1, 1, bytes);
+                }
+                else {
+                    table.add_slot(1, p_source.diffuse);
+                }
 
                 /* // add specular */
-                /* if(p_source.specular.empty()) { */
-                /*     std::array<uint8_t, 4> bytes = {0xFF, 0xFF, 0xFF, 0xFF}; */
-                /*     table.add_slot(2, 1, 1, bytes); */
-                /* } */
-                /* else { */
-                /*     table.add_slot(2, p_source.specular); */
-                /* } */
+                if(p_source.specular.empty()) {
+                    std::array<uint8_t, 4> bytes = {0xFF, 0xFF, 0xFF, 0xFF};
+                    table.add_slot(2, 1, 1, bytes);
+                }
+                else {
+                    table.add_slot(2, p_source.specular);
+                }
 
                 // add normal_map
                 // add roughness_map
@@ -111,12 +111,12 @@ public:
 
         // activate the texture
         geometry_shader->set("ambient", 0);
-        /* geometry_shader->set("diffuse", 1); */
+        geometry_shader->set("diffuse", 1);
 
-        /* m_texture_test.bind(); */
+        /* uint8_t bytes_size = 0; */
         sources.each([this, &geometry_shader](flecs::entity p_entity, core::transform& p_transform, core::mesh_source& p_source){
                 m_material_table[p_entity.id()].bind(0);
-                /* m_material_table[p_entity.id()].bind(1); */
+                m_material_table[p_entity.id()].bind(1);
 
                 auto model_test = m_cached_meshes[p_entity.id()];
                 glm::mat4 model = glm::mat4(1.f);
@@ -125,11 +125,12 @@ public:
                 geometry_shader->set("model", model);
 
                 model_test.bind();
+
                 glDrawElements(GL_TRIANGLES, static_cast<int>(model_test.size()), GL_UNSIGNED_INT, nullptr);
-                m_material_table[p_entity.id()].unbind(0);
-                /* m_material_table[p_entity.id()].unbind(1); */
         });
 
+
+        /* glDrawElements(GL_TRIANGLES, static_cast<int>(bytes_size), GL_UNSIGNED_INT, nullptr); */
     }
     
 

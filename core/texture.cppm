@@ -107,6 +107,7 @@ public:
 
     void create(const std::string& p_filename, texture_type property_on_load){
         glGenTextures(1, &m_id);
+        glActiveTexture(GL_TEXTURE_2D);
         bind();
 
         // load and generate the texture
@@ -162,6 +163,8 @@ public:
             std::print("Failed to load texture!!\n");
         }
         stbi_image_free(data);
+
+        unbind();
     }
 
     void create(uint32_t p_width, uint32_t p_height, std::span<const uint8_t> p_bytes) {
@@ -185,6 +188,8 @@ public:
 
         /* assert((size == width * height * bpp)); */
         glTexImage2D(GL_TEXTURE_2D, 0, m_internal_format, p_width, p_height, 0, m_format, GL_UNSIGNED_BYTE, p_bytes.data()); // same thing as doing: glTextureSubImage2D
+        glGenerateMipmap(GL_TEXTURE_2D);
+        /* unbind(); */
     }
 
     void bind(int p_texture_slot=0){
