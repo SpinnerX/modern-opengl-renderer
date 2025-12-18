@@ -13,9 +13,6 @@ module;
 
 #include <glad/glad.h>
 
-#include <optional>
-#include <map>
-
 export module core.renderer;
 
 import core.shader;
