@@ -2,7 +2,7 @@ module;
 
 #include <print>
 #include <flecs.h>
-
+#include <vector>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
@@ -13,17 +13,20 @@ module;
 
 #include <glad/glad.h>
 
-#include <map>
 
-export module core.renderer;
+export module core:renderer;
 
-import core.shader;
-import core.shader_library;
+
 import core.components;
-import core.obj_model_loader;
-import core.vertex_buffer;
 import core.texture;
 import core.texture_table;
+
+import :shader;
+import :shader_library;
+import :obj_model_loader;
+import :vertex_buffer;
+import :index_buffer;
+import :vertex_array;
 
 export class renderer {
 public:

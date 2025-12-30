@@ -7,11 +7,12 @@ module;
 #include <sstream>
 
 
-import core.vertex_buffer;
-import core.index_buffer;
 
-export module core.shader;
+export module core:shader;
 
+
+import :vertex_buffer;
+import :index_buffer;
 
 enum shader_t : int {
     vertex = GL_VERTEX_SHADER,

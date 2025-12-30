@@ -2,10 +2,13 @@ module;
 
 #include <unordered_map>
 
-import core.shader;
+
 #include <optional>
 
-export module core.shader_library;
+export module core:shader_library;
+
+
+import :shader;
 
 export enum class shader_type {
     geometry,

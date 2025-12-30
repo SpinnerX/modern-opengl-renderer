@@ -10,15 +10,19 @@ module;
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-import core.shader;
-import core.vertex_buffer;
-import core.index_buffer;
-import core.vertex_array;
-import core.texture;
+
+
 #include <filesystem>
 #include <vector>
 
-export module core.model_importer;
+export module core:model_importer;
+
+
+import :vertex_buffer;
+import :index_buffer;
+import :vertex_array;
+import :shader;
+import core.texture;
 
 struct mesh_metadata {
     uint32_t indices_count=0;

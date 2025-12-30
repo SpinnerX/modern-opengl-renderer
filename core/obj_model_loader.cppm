@@ -12,11 +12,14 @@ module;
 #include <span>
 #include <vector>
 
-import core.vertex_array;
-import core.vertex_buffer;
-import core.index_buffer;
 
-export module core.obj_model_loader;
+
+export module core:obj_model_loader;
+
+
+import :vertex_array;
+import :vertex_buffer;
+import :index_buffer;
 
 namespace core {
     template<typename T, typename... Rest>

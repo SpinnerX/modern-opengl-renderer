@@ -7,7 +7,7 @@ module;
 #include <cstdint>
 
 //export module vertex_buffer;
-export module core.vertex_buffer;
+export module core:vertex_buffer;
 
 
 /* struct vertex { */

@@ -5,11 +5,12 @@ module;
 #include <span>
 #include <filesystem>
 
-import core.vertex_buffer;
-import core.index_buffer;
 
-export module core.vertex_array;
+export module core:vertex_array;
 
+
+export import :vertex_buffer;
+export import :index_buffer;
 
 
 export class vertex_array {

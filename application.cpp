@@ -12,20 +12,14 @@
 
 /* import :test; */
 import core;
-import core.vertex_buffer;
 import core.components;
 import core.types;
-import core.shader;
-import core.vertex_array;
 import core.event;
 import core.keys;
-import core.model_importer;
-import core.obj_model_loader;
+/* import core.model_importer; */
 import core.event;
 import core.keys;
 import core.utilities;
-import core.shader_library;
-import core.renderer;
 
 /*
 

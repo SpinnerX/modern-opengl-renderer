@@ -4,7 +4,7 @@ module;
 #include <glad/glad.h>
 
 
-export module core.index_buffer;
+export module core:index_buffer;
 
 
 export class index_buffer {
