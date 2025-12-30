@@ -41,6 +41,8 @@ public:
 
     void begin(glm::mat4 p_proj_view) {
 
+
+
         // we bind geometry shader
         // set the proj_view uniform over the shader
         std::optional<shader> geometry_shader = m_shader_storage.get(shader_type::geometry);
@@ -48,7 +50,38 @@ public:
         geometry_shader->set("proj_view", p_proj_view);
     
         auto sources = m_current_scene->query_builder<core::transform, core::mesh_source>().build();
+        auto light_sources = m_current_scene->query_builder<core::transform, core::point_light>();
+        uint32_t light_source_count = light_sources.build().count();
+        /* geometry_shader->set("num_point_lights", (int)light_source_count); */
+        /* struct point_light { */
+        /*     glm::vec3 position; // this is provided by the transform */
+        /*     glm::vec4 color = { 1.f, 1.f, 1.f, 1.f }; */
+        /*     float attenuation = 1.f; */
+        /*     float constant = 1.f; */
+        /*     float linear = 1.f; */
+        /*     float quadratic = 1.f; */
 
+        /*     glm::vec4 ambient = glm::vec4(1.f); */
+        /*     glm::vec4 diffuse = glm::vec4(1.f); */
+        /*     glm::vec4 specular = glm::vec4(1.f); */
+        /* }; */
+        uint32_t point_light_index = 0;
+        light_sources.each([this, &geometry_shader, &point_light_index](flecs::entity p_entity, core::transform& p_transform, core::point_light& p_light){
+            std::string fmt = std::format("point_light[{}]", point_light_index);
+            geometry_shader->set(std::format("{}.position", fmt), p_transform.position);
+            geometry_shader->set(std::format("{}.color", fmt), p_light.color);
+            geometry_shader->set(std::format("{}.attenuation", fmt), p_light.attenuation);
+            geometry_shader->set(std::format("{}.constant", fmt), p_light.constant);
+            geometry_shader->set(std::format("{}.linear", fmt), p_light.linear);
+            geometry_shader->set(std::format("{}.quadratic", fmt), p_light.quadratic);
+            geometry_shader->set(std::format("{}.ambient", fmt), p_light.ambient);
+            geometry_shader->set(std::format("{}.diffuse", fmt), p_light.diffuse);
+            geometry_shader->set(std::format("{}.specular", fmt), p_light.specular);
+            point_light_index++;
+        });
+
+        /* std::println("num_point_lights = {}", light_source_count); */
+        /* std::println("point_light_index = {}", point_light_index); */
         
         sources.each([this](flecs::entity p_entity, core::transform& p_transform, core::mesh_source& p_source){
             if(!m_cached_meshes.contains(p_entity.id())) {
@@ -89,7 +122,8 @@ public:
                 else {
                     table.add_slot(2, p_source.specular);
                 }
-
+                
+                // TODO: Add these for mapping out the different materials
                 // add normal_map
                 // add roughness_map
                 // add parallax_mapp
