@@ -5,7 +5,9 @@ module;
 
 import core.types;
 
-export module core.framebuffer;
+/* export module core.framebuffer; */
+
+export module core:framebuffer;
 
 export namespace core {
 

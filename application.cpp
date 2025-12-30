@@ -10,10 +10,11 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
 
+/* import :test; */
+import core;
 import core.vertex_buffer;
 import core.components;
 import core.types;
-import core.framebuffer;
 import core.shader;
 import core.vertex_array;
 import core.event;
@@ -25,6 +26,13 @@ import core.keys;
 import core.utilities;
 import core.shader_library;
 import core.renderer;
+
+/*
+
+
+
+
+*/
 
 #include <vector>
 #include <filesystem>
@@ -106,12 +114,20 @@ int main(){
         .field_of_view = 45.f,
     });
 
+    /* Texture2D("assets/robo-pose/textures/Texture_1K.jpg"), */
+    /* Texture2D("assets/robo-pose/textures/LP_BodyNormalsMap_1K.jpg"), */
+    /* Texture2D("assets/robo-pose/textures/specular.jpeg"), */
+    /* Texture2D("assets/robo-pose/textures/diffuse.jpeg"), */
+
     flecs::entity backpack = registry.entity("Backpack");
     backpack.set<core::transform>({
     });
     backpack.set<core::mesh_source>({
         .filepath = std::filesystem::path("assets/models/robot.obj"),
-        .ambient = "assets/models/wood.png",
+        .ambient = "./robo-pose/textures/Texture_1K.jpg",
+        .diffuse = "./robo-pose/textures/diffuse.jpeg",
+        /* .ambient = "assets/rusted_iron/metallic.png", */
+        /* .diffuse = "assets/rusted_iron/roughness.png" */
     });
 
     flecs::entity pair = registry.entity("Pair");
@@ -119,6 +135,15 @@ int main(){
     pair.set<core::mesh_source>({
         .filepath = std::filesystem::path("assets/models/E 45 Aircraft_obj.obj"),
         .ambient = "assets/models/wall.jpg",
+    });
+
+    flecs::entity light_source1 = registry.entity("Light 1");
+    light_source1.set<core::transform>({
+        .position = backpack.get<core::transform>()->position,
+    });
+    light_source1.get_mut<core::transform>()->position.y = -2.f;
+    light_source1.set<core::point_light>({
+        .color = glm::vec4(1.f, 0.f, 0.f, 1.f),
     });
 
     glm::vec4 color = {0.f, 0.5f, 0.5f, 1.f};

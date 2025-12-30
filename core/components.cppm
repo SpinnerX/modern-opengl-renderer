@@ -27,10 +27,22 @@ export namespace core {
     * 
     * This component will assume that is already handled and will only contain properties for configuring the point light itself.
     */
+    /* struct point_light { */
+    /*     glm::vec3 position; */
+    /*     glm::vec3 direction; */
+    /*     glm::vec4 color{1.f}; */
+    /* }; */
     struct point_light {
-        glm::vec3 position;
-        glm::vec3 direction;
-        glm::vec4 color{1.f};
+        glm::vec3 position{0.f}; // this is provided by the transform
+        glm::vec4 color = { 1.f, 1.f, 1.f, 1.f };
+        float attenuation = 1.f;
+        float constant = 1.f;
+        float linear = 1.f;
+        float quadratic = 1.f;
+
+        glm::vec4 ambient = glm::vec4(1.f);
+        glm::vec4 diffuse = glm::vec4(1.f);
+        glm::vec4 specular = glm::vec4(1.f);
     };
 
     struct projection_view {

@@ -1,7 +1,11 @@
-cmake_minimum_required(VERSION 3.27)
+cmake_minimum_required(VERSION 4.0)
 project(Starter CXX)
 
+
+
 set(CMAKE_CXX_STANDARD 23)
+
+
 
 build_application(
     SOURCES
@@ -28,11 +32,13 @@ build_application(
 
 generate_compile_commands()
 
+set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD d0edc3af-4c50-42ea-a356-e2862fe7a444)
 target_sources(${PROJECT_NAME} PUBLIC
     FILE_SET CXX_MODULES
     TYPE CXX_MODULES
     FILES
     renderer.cppm
+    core/core.cppm
     core/model_importer.cppm
     core/obj_model_loader.cppm
     core/vertex_buffer.cppm
@@ -49,8 +55,10 @@ target_sources(${PROJECT_NAME} PUBLIC
     core/utilities.cppm
     core/shader_library.cppm
     texture_table.cppm
+    core/test.cppm
 )
+
 
 # target_compile_options(${PROJECT_NAME} PUBLIC -ftime-report)
 
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_23)
+# target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_23)
