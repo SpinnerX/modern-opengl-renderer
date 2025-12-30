@@ -5,4 +5,4 @@ module;
 #include <stb_image.h>
 #endif
 
-export module core.stb_image;
+export module core:stb_image;

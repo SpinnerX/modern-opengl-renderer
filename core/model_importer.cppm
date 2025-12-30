@@ -22,7 +22,7 @@ import :vertex_buffer;
 import :index_buffer;
 import :vertex_array;
 import :shader;
-import core.texture;
+import :texture;
 
 struct mesh_metadata {
     uint32_t indices_count=0;

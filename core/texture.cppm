@@ -6,10 +6,11 @@ module;
 #include <print>
 #include <span>
 
-import core.stb_image;
 
-export module core.texture;
 
+export module core:texture;
+
+import :stb_image;
 
 //! @note Specifying what textures to load the texture 2d in.
 enum class texture_type{

@@ -3,6 +3,8 @@ module;
 #include <print>
 #include <flecs.h>
 #include <vector>
+#include <map>
+
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
 
@@ -18,8 +20,8 @@ export module core:renderer;
 
 
 import core.components;
-import core.texture;
-import core.texture_table;
+import :texture;
+import :texture_table;
 
 import :shader;
 import :shader_library;

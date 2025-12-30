@@ -5,10 +5,11 @@ module;
 #include <filesystem>
 #include <span>
 
-import core.texture;
 
-export module core.texture_table;
 
+export module core:texture_table;
+
+import :texture;
 /*
  *
  * @brief Used to indicate the texture and which texture slot to activate
