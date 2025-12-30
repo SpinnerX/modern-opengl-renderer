@@ -17,19 +17,6 @@ export import :renderer;
 
 export import :event;
 export import :keys;
-/* export import :stb_image; */
-/* core/obj_model_loader.cppm */
-/* core/vertex_buffer.cppm */
-/* core/index_buffer.cppm */
-/* core/vertex_array.cppm */
-/* core/texture.cppm */
-/* core/stb_image.cppm */
-/* core/shader.cppm */
-/* core/components.cppm */
-/* core/types.cppm */
-/* core/framebuffer.cppm */
-/* core/event.cppm */
-/* core/keys.cppm */
-/* core/utilities.cppm */
+
 namespace core {
 };

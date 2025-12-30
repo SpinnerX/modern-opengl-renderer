@@ -10,18 +10,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
 
-/* import :test; */
 import core;
-
-/*
-
-
-
-
-*/
-
-#include <vector>
-#include <filesystem>
 
 using namespace std;
 
