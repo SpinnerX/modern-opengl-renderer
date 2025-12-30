@@ -2,7 +2,7 @@ module;
 
 #include <cstdint>
 
-export module core.types;
+export module core:types;
 
 
 export namespace core {

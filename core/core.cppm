@@ -1,7 +1,9 @@
 
 export module core;
 
-
+export import :types;
+export import :utilities;
+export import :components;
 export import :framebuffer;
 export import :obj_model_loader;
 export import :vertex_buffer;

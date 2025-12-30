@@ -12,14 +12,11 @@
 
 /* import :test; */
 import core;
-import core.components;
-import core.types;
 import core.event;
 import core.keys;
 /* import core.model_importer; */
 import core.event;
 import core.keys;
-import core.utilities;
 
 /*
 

@@ -4,9 +4,10 @@ module;
 #include <glm/glm.hpp>
 #include <filesystem>
 
-import core.utilities;
-export module core.components;
 
+export module core:components;
+
+import :utilities;
 
 export namespace core {
     struct perspective_camera {

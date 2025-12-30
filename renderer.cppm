@@ -19,7 +19,7 @@ module;
 export module core:renderer;
 
 
-import core.components;
+import :components;
 import :texture;
 import :texture_table;
 

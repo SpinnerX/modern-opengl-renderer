@@ -3,11 +3,13 @@ module;
 #include <glad/glad.h>
 #include <print>
 
-import core.types;
+
 
 /* export module core.framebuffer; */
 
 export module core:framebuffer;
+
+import :types;
 
 export namespace core {
 

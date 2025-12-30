@@ -7,7 +7,7 @@ module;
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
 
-export module core.utilities;
+export module core:utilities;
 
 export {
 glm::quat to_quat(const glm::vec4& p_values) {
