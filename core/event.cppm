@@ -2,7 +2,7 @@ module;
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
-export module core.event;
+export module core:event;
 
 export namespace core {
     bool is_key_pressed(GLFWwindow* p_window, int p_key) {

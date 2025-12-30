@@ -3,7 +3,7 @@ module;
 #include <GLFW/glfw3.h>
 #include <cstdint>
 
-export module core.keys;
+export module core:keys;
 
 enum Key : uint32_t {
 	// From glfw3.h

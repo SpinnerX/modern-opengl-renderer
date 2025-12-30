@@ -13,6 +13,10 @@ export import :vertex_array;
 export import :obj_model_loader;
 export import :shader;
 export import :renderer;
+
+
+export import :event;
+export import :keys;
 /* export import :stb_image; */
 /* core/obj_model_loader.cppm */
 /* core/vertex_buffer.cppm */
