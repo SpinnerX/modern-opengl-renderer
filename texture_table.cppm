@@ -48,21 +48,28 @@ public:
 
     void add_slot(uint32_t p_slot, const std::filesystem::path& p_path) {
         m_slots.emplace(p_slot, texture_slots{texture(p_path.string(), false), p_slot});
-        m_slots[p_slot].image_texture.unbind();
+        /* m_slots[p_slot].image_texture.unbind(); */
     }
 
-    void add_slot(uint32_t p_slot, uint32_t p_width, uint32_t p_height, std::span<const uint8_t> p_bytes) {
-        m_slots.emplace(p_slot, texture_slots{texture(p_width, p_height, p_bytes), p_slot});
-        m_slots[p_slot].image_texture.unbind();
-    }
-    
-    void bind(uint32_t p_slot) {
-        m_slots[p_slot].image_texture.bind(0);
+    void bind() {
+        for(auto&[key, texture_slot] : m_slots) {
+            texture_slot.image_texture.bind(key);
+        }
     }
 
-    void unbind(uint32_t p_slot) {
-        m_slots[p_slot].image_texture.unbind();
+    void unbind() {
+        for(auto&[key, texture_slot] : m_slots) {
+            texture_slot.image_texture.unbind(key);
+        }
     }
+
+    /* void bind_all() { */
+    /*     uint32_t slot = 0; */
+    /*     for(const auto[key, value] : m_slots) { */
+    /*         value.image_texture.bind(slot); */
+    /*         slot++; */
+    /*     } */
+    /* } */
 
 private:
     std::map<uint32_t, texture_slots> m_slots;
