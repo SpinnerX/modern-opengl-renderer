@@ -59,7 +59,7 @@ public:
 
     void unbind() {
         for(auto&[key, texture_slot] : m_slots) {
-            texture_slot.image_texture.unbind(key);
+            texture_slot.image_texture.unbind();
         }
     }
 

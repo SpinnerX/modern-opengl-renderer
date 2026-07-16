@@ -163,6 +163,10 @@ export namespace core {
             m_vao.bind();
         }
 
+        void unbind() {
+            m_vao.unbind();
+        }
+
         [[nodiscard]] uint64_t size() const {
             return m_indices_count;
         }

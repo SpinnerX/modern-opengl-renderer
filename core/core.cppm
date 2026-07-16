@@ -13,10 +13,22 @@ export import :vertex_array;
 export import :obj_model_loader;
 export import :shader;
 export import :renderer;
-
+export import :shader_library;
 
 export import :event;
 export import :keys;
+
+export import :assimp_loader;
+export import :mesh_batch;
+
+export {
+#ifdef TEST_MACRO
+void print() {
+    std::println("Macro Defined!");
+}
+#endif
+}
+
 
 namespace core {
 };

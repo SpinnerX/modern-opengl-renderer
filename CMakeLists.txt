@@ -53,9 +53,10 @@ target_sources(${PROJECT_NAME} PUBLIC
     core/event.cppm
     core/keys.cppm
     core/utilities.cppm
+    core/assimp_loader.cppm
+    core/mesh_batch.cppm
     core/shader_library.cppm
     texture_table.cppm
-    core/test.cppm
 )
 
 

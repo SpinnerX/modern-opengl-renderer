@@ -31,9 +31,20 @@ import :index_buffer;
 import :vertex_array;
 
 export class renderer {
+    struct texture_table_experimental {
+        texture ambient;
+        texture diffuse;
+        texture specular;
+    };
+
 public:
     renderer(flecs::world& p_scene) : m_current_scene(&p_scene) {
         m_shader_storage.emplace(shader_type::geometry, "builtin.shaders/geometry.vert", "builtin.shaders/geometry.frag");
+        std::optional<shader> geometry_shader = m_shader_storage.get(shader_type::geometry);
+        /* geometry_shader->bind(); */
+        /* geometry_shader->set("ambient_texture", 0); */
+        /* geometry_shader->set("diffuse_texture", 1); */
+        /* geometry_shader->set("specular_texture", 2); */
         /* m_texture_test = texture("assets/models/wood.png", false); */
     }
 
@@ -71,18 +82,21 @@ public:
         /*     glm::vec4 specular = glm::vec4(1.f); */
         /* }; */
         uint32_t point_light_index = 0;
+        geometry_shader->set("point_lights[0].position", glm::vec3(0.f, 0.10f, 0.f));
+        geometry_shader->set("point_lights[0].color", glm::vec4(0.f, 0.f, 1.f, 1.f));
         light_sources.each([this, &geometry_shader, &point_light_index](flecs::entity p_entity, core::transform& p_transform, core::point_light& p_light){
-            std::string fmt = std::format("point_light[{}]", point_light_index);
-            geometry_shader->set(std::format("{}.position", fmt), p_transform.position);
-            geometry_shader->set(std::format("{}.color", fmt), p_light.color);
-            geometry_shader->set(std::format("{}.attenuation", fmt), p_light.attenuation);
-            geometry_shader->set(std::format("{}.constant", fmt), p_light.constant);
-            geometry_shader->set(std::format("{}.linear", fmt), p_light.linear);
-            geometry_shader->set(std::format("{}.quadratic", fmt), p_light.quadratic);
-            geometry_shader->set(std::format("{}.ambient", fmt), p_light.ambient);
-            geometry_shader->set(std::format("{}.diffuse", fmt), p_light.diffuse);
-            geometry_shader->set(std::format("{}.specular", fmt), p_light.specular);
-            point_light_index++;
+            /* std::string fmt = std::format("point_light[{}]", point_light_index); */
+            /* geometry_shader->set(std::format("{}.position", fmt), p_transform.position); */
+            /* geometry_shader->set(std::format("{}.color", fmt), p_light.color); */
+            /* geometry_shader->set(std::format("{}.attenuation", fmt), p_light.attenuation); */
+            /* geometry_shader->set(std::format("{}.constant", fmt), p_light.constant); */
+            /* geometry_shader->set(std::format("{}.linear", fmt), p_light.linear); */
+            /* geometry_shader->set(std::format("{}.quadratic", fmt), p_light.quadratic); */
+            /* geometry_shader->set(std::format("{}.ambient", fmt), p_light.ambient); */
+            /* geometry_shader->set(std::format("{}.diffuse", fmt), p_light.diffuse); */
+            /* geometry_shader->set(std::format("{}.specular", fmt), p_light.specular); */
+            /* point_light_index++; */
+            /* std::println("point_light_index = {}", point_light_index); */
         });
 
         /* std::println("num_point_lights = {}", light_source_count); */
@@ -98,34 +112,42 @@ public:
                 // 0 = ambient, 1 = diffuse, 2 = specular, 3 = normal
                 // if no texture, then replace empty texture with a white texture
 
-                texture_table table;
-
+                /* texture_table table; */
+                texture_table_experimental exp_table{};
                 // ambient
                 if(p_source.ambient.empty()) {
+                    std::println("[{}] ================> p_source.ambient.empty()", p_entity.name().c_str());
                     std::array<uint8_t, 4> bytes = {0xFF, 0xFF, 0xFF, 0xFF};
-                    table.add_slot(0, 1, 1, bytes);
+                    /* table.add_slot(0, 1, 1, bytes); */
                 }
                 else {
-                    table.add_slot(0, p_source.ambient);
+                    /* table.add_slot(0, p_source.ambient); */
+                    exp_table.ambient = texture(p_source.ambient, false);
                 }
 
                 // add diffuse
                 
                 if(p_source.diffuse.empty()) {
+                    std::println("[{}] ==============> p_source.diffuse.empty()", p_entity.name().c_str());
                     std::array<uint8_t, 4> bytes = {0xFF, 0xFF, 0xFF, 0xFF};
-                    table.add_slot(1, 1, 1, bytes);
+                    /* table.add_slot(1, 1, 1, bytes); */
+                    exp_table.diffuse = texture("");
                 }
                 else {
-                    table.add_slot(1, p_source.diffuse);
+                    /* table.add_slot(1, p_source.diffuse); */
+                    exp_table.diffuse = texture(p_source.diffuse, false);
                 }
 
                 /* // add specular */
                 if(p_source.specular.empty()) {
+                    std::println("[{}] ===============> p_source.specular.empty()", p_entity.name().c_str());
                     std::array<uint8_t, 4> bytes = {0xFF, 0xFF, 0xFF, 0xFF};
-                    table.add_slot(2, 1, 1, bytes);
+                    /* table.add_slot(2, 1, 1, bytes); */
+                    exp_table.specular = texture("");
                 }
                 else {
-                    table.add_slot(2, p_source.specular);
+                    /* table.add_slot(2, p_source.specular); */
+                    exp_table.specular = texture(p_source.specular);
                 }
                 
                 // TODO: Add these for mapping out the different materials
@@ -140,21 +162,29 @@ public:
                 /* std::string roughness_map=""; // roughness mapping texture */
                 /* std::string parallax_mapping=""; // for handling parallax mapping */
 
-                m_material_table.emplace(p_entity.id(), table);
+                /* m_material_table.emplace(p_entity.id(), table); */
+                m_exp_materials.emplace(p_entity.id(), exp_table);
             }
 
         });
 
-        geometry_shader->bind();
+        /* geometry_shader->bind(); */
 
+        geometry_shader->bind();
+        geometry_shader->set("ambient_texture", 1);
+        geometry_shader->set("diffuse_texture", 2);
+        geometry_shader->set("specular_texture", 3);
         // activate the texture
-        geometry_shader->set("ambient", 0);
-        geometry_shader->set("diffuse", 1);
+
 
         /* uint8_t bytes_size = 0; */
         sources.each([this, &geometry_shader](flecs::entity p_entity, core::transform& p_transform, core::mesh_source& p_source){
-                m_material_table[p_entity.id()].bind(0);
-                m_material_table[p_entity.id()].bind(1);
+
+
+                auto& material = m_exp_materials[p_entity.id()];
+                material.ambient.bind(1);
+                material.diffuse.bind(2);
+                material.specular.bind(3);
 
                 auto model_test = m_cached_meshes[p_entity.id()];
                 glm::mat4 model = glm::mat4(1.f);
@@ -163,8 +193,17 @@ public:
                 geometry_shader->set("model", model);
 
                 model_test.bind();
-
+                /* m_material_table[p_entity.id()].bind(); // binding all textures for per-mesh object */
                 glDrawElements(GL_TRIANGLES, static_cast<int>(model_test.size()), GL_UNSIGNED_INT, nullptr);
+
+                /* m_material_table[p_entity.id()].unbind(); */
+                
+                model_test.unbind();
+
+                material.ambient.unbind();
+                material.diffuse.unbind();
+                material.specular.unbind();
+
         });
 
 
@@ -182,5 +221,7 @@ private:
     /* texture m_texture_test; */
     shader_library m_shader_storage;
     std::map<uint64_t, texture_table> m_material_table;
+    std::map<uint64_t, texture_table_experimental> m_exp_materials;
+
     std::map<uint64_t, core::obj_model_loader> m_cached_meshes;
 };

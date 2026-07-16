@@ -11,13 +11,15 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
-
+#define TEST_MACRO
+/* import glm; */
 import core;
 
 
 using namespace std;
 
 int main(){
+    print();
     //! @note Just added the some test code to test the conan-starter setup code
     if(!glfwInit()){
         std::print("glfwInit could not be initialized!\n");
@@ -104,6 +106,7 @@ int main(){
         .filepath = std::filesystem::path("assets/models/robot.obj"),
         .ambient = "./robo-pose/textures/Texture_1K.jpg",
         .diffuse = "./robo-pose/textures/diffuse.jpeg",
+        .specular = "./robo-pose/textures/specular.jpeg",
         /* .ambient = "assets/rusted_iron/metallic.png", */
         /* .diffuse = "assets/rusted_iron/roughness.png" */
     });
@@ -136,6 +139,20 @@ int main(){
     renderer core_renderer(registry);
 
     glEnable(GL_DEPTH_TEST);
+
+    shader_library shader_storage;
+    shader_storage.emplace(shader_type::geometry, "builtin.shaders/geometry.vert", "builtin.shaders/geometry.frag");
+    
+    std::optional<shader> geometry_shader = shader_storage.get(shader_type::geometry);
+    
+    std::array<texture, 6> texture_mappings = {
+        texture("assets/robo-pose/textures/Texture_1K.jpg"),
+        texture("assets/robo-pose/textures/LP_BodyNormalsMap_1K.jpg"),
+        texture("assets/robo-pose/textures/specular.jpeg"),
+        texture("assets/robo-pose/textures/diffuse.jpeg"),
+    };
+    core::assimp_loader test_model("assets/models/robot.obj", true, texture_mappings);
+
 
     while(!glfwWindowShouldClose(window)){
         auto current_time = std::chrono::high_resolution_clock::now();
@@ -200,23 +217,34 @@ int main(){
         glClearColor(color.x, color.y, color.z, color.w);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        /* experimental_shader.bind(); */
-        /* experimental_shader.set("proj_view", proj_view); */
-        /* experimental_shader.unbind(); */
+        
+        geometry_shader->bind();
+        glm::vec3 pos = {0.f, 0.f, 0.f};
+        glm::vec3 scale = {1.f, 1.f, 1.f};
+        glm::vec3 rotate = {0.f, 0.f, 0.f};
+        test_model.draw(geometry_shader.value(), pos, scale, rotate, 0.f);
+        geometry_shader->unbind();
+        /*
+        experimental_shader.bind();
+        experimental_shader.set("proj_view", proj_view);
+        experimental_shader.unbind();
 
         core_renderer.begin(proj_view);
 
-        /* experimental_shader.bind(); */
-        /* glm::mat4 model = glm::mat4(1.f); */
-        /* const core::transform* t = backpack.get<core::transform>(); */
-        /* model = glm::translate(model, t->position); */
-        /* model = glm::scale(model, t->scale); */
-        /* experimental_shader.set("model", model); */
+        experimental_shader.bind();
+        glm::mat4 model = glm::mat4(1.f);
+        const core::transform* t = backpack.get<core::transform>();
+        model = glm::translate(model, t->position);
+        model = glm::scale(model, t->scale);
+        experimental_shader.set("model", model);
 
-        /* obj_model.bind(); */
-        /* glDrawElements(GL_TRIANGLES, static_cast<int>(obj_model.size()), GL_UNSIGNED_INT, nullptr); */
+        obj_model.bind();
+        glDrawElements(GL_TRIANGLES, static_cast<int>(obj_model.size()), GL_UNSIGNED_INT, nullptr);
         
         core_renderer.end();
+        */
+
+
 
         
         glfwSwapBuffers(window);
